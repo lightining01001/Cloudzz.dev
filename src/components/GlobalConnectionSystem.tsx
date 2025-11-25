@@ -17,6 +17,7 @@ function getPointAtLength(path: SVGPathElement | null, length: number) {
 export default function GlobalConnectionSystem() {
     const [linePaths, setLinePaths] = useState<string[]>([]);
     const [lineTracerPos, setLineTracerPos] = useState<Array<{ x: number; y: number }>>([]);
+    const [isMobile, setIsMobile] = useState(false);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const linePathRefs = useRef<(SVGPathElement | null)[]>([]);
@@ -26,6 +27,17 @@ export default function GlobalConnectionSystem() {
     // Scroll mapping for the three lines
     const lineProgress = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
     const lineOpacity = useTransform(scrollYProgress, [0, 0.05, 0.45, 0.55], [0, 1, 1, 0]);
+
+    // Arrow opacity - fade out in the last 20% of travel as they approach avatars
+    const arrowOpacity = useTransform(lineProgress, [0, 0.1, 0.75, 1], [0, 1, 1, 0]);
+
+    // Detect mobile on mount
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     // Update tracer positions based on scroll
     useMotionValueEvent(lineProgress, "change", (latest) => {
@@ -37,6 +49,24 @@ export default function GlobalConnectionSystem() {
             return { x: 0, y: 0 };
         });
         setLineTracerPos(newPositions);
+
+        // Avatar fill starts when arrows are arriving (at 70% progress)
+        // and completes when they fully vanish (at 100%)
+        const fillStart = 0.7;
+        const fillProgress = Math.max(0, Math.min(1, (latest - fillStart) / (1 - fillStart)));
+        const fillAmount = fillProgress * 100;
+
+        const avatarFills = [
+            document.getElementById("avatar-fill-leon"),
+            document.getElementById("avatar-fill-roko"),
+            document.getElementById("avatar-fill-frane"),
+        ];
+
+        avatarFills.forEach((fill) => {
+            if (fill) {
+                fill.style.clipPath = `circle(${fillAmount}% at 50% 50%)`;
+            }
+        });
     });
 
     useEffect(() => {
@@ -46,6 +76,13 @@ export default function GlobalConnectionSystem() {
                 document.getElementById("member-card-0"), // Leon
                 document.getElementById("member-card-1"), // Roko (middle)
                 document.getElementById("member-card-2"), // Frane
+            ];
+
+            // Get avatar elements for precise targeting
+            const avatars = [
+                document.getElementById("avatar-leon"),
+                document.getElementById("avatar-roko"),
+                document.getElementById("avatar-frane"),
             ];
 
             if (!heroTitle || !containerRef.current) return;
@@ -65,9 +102,20 @@ export default function GlobalConnectionSystem() {
                     return "";
                 }
 
-                const cardRect = card.getBoundingClientRect();
-                const endX = cardRect.left + cardRect.width / 2 - containerRect.left;
-                const endY = cardRect.top - 30 + scrollY - (containerRect.top + scrollY);
+                // Target the avatar circle center instead of card top
+                const avatar = avatars[idx];
+                let endX, endY;
+
+                if (avatar) {
+                    const avatarRect = avatar.getBoundingClientRect();
+                    endX = avatarRect.left + avatarRect.width / 2 - containerRect.left;
+                    endY = avatarRect.top + avatarRect.height / 2 + scrollY - (containerRect.top + scrollY);
+                } else {
+                    // Fallback to card position if avatar not found
+                    const cardRect = card.getBoundingClientRect();
+                    endX = cardRect.left + cardRect.width / 2 - containerRect.left;
+                    endY = cardRect.top - 30 + scrollY - (containerRect.top + scrollY);
+                }
 
                 // Middle card (Roko, index 1) gets a straight vertical line
                 if (idx === 1) {
@@ -105,6 +153,10 @@ export default function GlobalConnectionSystem() {
         };
     }, []);
 
+    // Adjust sizes for mobile
+    const arrowScale = isMobile ? 0.7 : 1;
+    const glowRadius = isMobile ? 10 : 14;
+
     return (
         <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0 overflow-visible">
             <svg className="w-full h-full overflow-visible">
@@ -124,19 +176,11 @@ export default function GlobalConnectionSystem() {
                         </feMerge>
                     </filter>
 
-                    {/* Glassmorphism ball filter with distortion */}
-                    <filter id="glassDistortion" x="-100%" y="-100%" width="300%" height="300%">
-                        {/* Displacement map for glass distortion effect */}
-                        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="1" result="turbulence" />
-                        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="5" xChannelSelector="R" yChannelSelector="G" result="displacement" />
-
-                        {/* Blur for frosted glass effect */}
-                        <feGaussianBlur in="displacement" stdDeviation="2" result="blur" />
-
-                        {/* Glow around the ball */}
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="glow1" />
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="glow2" />
-
+                    {/* Simplified glass effect for Firefox compatibility */}
+                    <filter id="glassDistortion" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur" />
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="glow1" />
+                        <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="glow2" />
                         <feMerge>
                             <feMergeNode in="glow2" />
                             <feMergeNode in="glow1" />
@@ -145,7 +189,7 @@ export default function GlobalConnectionSystem() {
                         </feMerge>
                     </filter>
 
-                    {/* Glassmorphism gradient for the ball */}
+                    {/* Glassmorphism gradient for the arrow */}
                     <radialGradient id="glassGradient">
                         <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
                         <stop offset="50%" stopColor="var(--terminal-green)" stopOpacity="0.4" />
@@ -173,15 +217,15 @@ export default function GlobalConnectionSystem() {
                                     transition={{ duration: 2, delay: index * 0.2, ease: "easeInOut" }}
                                 />
 
-                                {/* Transparent Arrow Tracer - Skip middle line (index 1) */}
-                                {index !== 1 && (
-                                    <g transform={`translate(${lineTracerPos[index]?.x || 0}, ${lineTracerPos[index]?.y || 0})`}>
+                                {/* Transparent Arrow Tracer - Desktop only */}
+                                {!isMobile && (
+                                    <g transform={`translate(${lineTracerPos[index]?.x || 0}, ${lineTracerPos[index]?.y || 0}) scale(${arrowScale})`}>
                                         {/* Outer glow */}
                                         <motion.circle
-                                            r="14"
+                                            r={glowRadius}
                                             fill="var(--terminal-green)"
                                             opacity="0.05"
-                                            style={{ opacity: lineOpacity }}
+                                            style={{ opacity: arrowOpacity }}
                                         />
 
                                         {/* Arrow shape pointing down */}
@@ -192,7 +236,7 @@ export default function GlobalConnectionSystem() {
                                             strokeWidth="0.5"
                                             opacity="0.4"
                                             filter="url(#glassDistortion)"
-                                            style={{ opacity: lineOpacity }}
+                                            style={{ opacity: arrowOpacity }}
                                         />
 
                                         {/* Inner highlight for glass effect */}
@@ -200,7 +244,7 @@ export default function GlobalConnectionSystem() {
                                             d="M -0.5,-5 L 1,-3.5 L 0.5,-3.5 L 0.5,3 L -0.5,3 Z"
                                             fill="#ffffff"
                                             opacity="0.3"
-                                            style={{ opacity: lineOpacity }}
+                                            style={{ opacity: arrowOpacity }}
                                         />
                                     </g>
                                 )}

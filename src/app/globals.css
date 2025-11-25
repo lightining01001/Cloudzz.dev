@@ -106,8 +106,63 @@ body {
   }
 }
 
+/* Radial gradient for CRT effect */
 .radial-gradient-crt {
-  background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.4) 100%);
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+
+  /* Reduce blur on mobile for performance */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(12px);
+  }
+
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+
+  /* Optimize glassmorphism for mobile */
+  .glass-card {
+    backdrop-filter: blur(8px) saturate(150%);
+  }
+
+  /* Prevent horizontal scroll */
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Disable custom cursor on touch devices */
+  body,
+  [data-theme="dark"] body {
+    cursor: auto !important;
+  }
+
+  /* Ensure touch targets are large enough */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Performance optimization for animations */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @keyframes glitch-anim-1 {

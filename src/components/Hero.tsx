@@ -4,18 +4,18 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center relative z-10 px-4">
+        <section className="min-h-screen flex flex-col items-center justify-center relative z-10 px-4 sm:px-6 lg:px-8">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-center"
             >
-                <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tighter">
+                <h1 id="hero-title" className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 tracking-tighter leading-tight">
                     Cloudzz Hackathon Team
                     <span className="block text-terminal-green mt-2">— Zadar</span>
                 </h1>
-                <p className="text-lg md:text-xl text-terminal-gray/80 max-w-2xl mx-auto font-medium">
+                <p className="text-base sm:text-lg md:text-xl text-terminal-gray/80 max-w-2xl mx-auto font-medium px-4">
                     Innovating under pressure since Day 1
                 </p>
             </motion.div>
