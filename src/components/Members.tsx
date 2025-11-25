@@ -29,9 +29,20 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
     const [glitchActive, setGlitchActive] = useState(false);
     const [showTerminal, setShowTerminal] = useState(false);
     const [terminalText, setTerminalText] = useState("");
+    const [isMobile, setIsMobile] = useState(false);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    // Detect mobile on mount
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     const handleMouseEnter = () => {
+        if (isMobile) return; // Disable on mobile
+
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
         setGlitchActive(true);
@@ -44,6 +55,8 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
     };
 
     const handleMouseLeave = () => {
+        if (isMobile) return; // Disable on mobile
+
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
         // Hide terminal immediately
@@ -58,15 +71,10 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
         }, 350);
     };
 
-    // Touch handler for mobile devices
+    // Touch handler for mobile devices - DISABLED for glitch effect
     const handleTouchStart = () => {
-        if (showTerminal) {
-            // If terminal is showing, hide it
-            handleMouseLeave();
-        } else {
-            // Otherwise, show it
-            handleMouseEnter();
-        }
+        // Do nothing on mobile - glitch effect disabled
+        return;
     };
 
     // Typewriter effect for terminal text
