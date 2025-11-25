@@ -20,7 +20,7 @@ export default function TerminalWindow() {
                     ease: "circOut",
                     opacity: { duration: 0.2 }
                 }}
-                className="w-full max-w-5xl bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-lg shadow-2xl border border-terminal-gray/20 overflow-hidden flex flex-col h-[500px] sm:h-[550px] md:h-[600px] relative group"
+                className="w-full max-w-5xl bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-lg shadow-2xl border border-terminal-gray/20 overflow-hidden flex flex-col min-h-[700px] sm:min-h-[650px] md:h-[600px] relative group"
             >
                 {/* CRT Overlay Effect */}
                 <div className="absolute inset-0 pointer-events-none z-50 opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
@@ -45,12 +45,12 @@ export default function TerminalWindow() {
                     <TerminalParticles />
 
                     {/* Left Panel: Shell */}
-                    <div className="flex-1 bg-white/50 dark:bg-black/50 p-2 border-r border-terminal-gray/10 relative z-10 min-h-[200px] md:min-h-0">
+                    <div className="flex-1 bg-white/50 dark:bg-black/50 p-2 border-r border-terminal-gray/10 relative z-10 min-h-[400px] md:min-h-0">
                         <FakeShell />
                     </div>
 
                     {/* Right Panel: Widgets */}
-                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 overflow-y-auto relative z-10">
+                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 relative z-10">
                         <div className="flex justify-center">
                             <AsciiArt />
                         </div>
