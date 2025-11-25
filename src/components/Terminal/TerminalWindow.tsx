@@ -5,6 +5,7 @@ import FakeShell from "../FakeShell";
 import AsciiArt from "./AsciiArt";
 import AsciiClock from "./AsciiClock";
 import WeatherWidget from "./WeatherWidget";
+import HackathonCountdownWidget from "./HackathonCountdownWidget";
 
 import TerminalParticles from "./TerminalParticles";
 
@@ -20,7 +21,7 @@ export default function TerminalWindow() {
                     ease: "circOut",
                     opacity: { duration: 0.2 }
                 }}
-                className="w-full max-w-5xl bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-lg shadow-2xl border border-terminal-gray/20 overflow-hidden flex flex-col min-h-[700px] sm:min-h-[650px] md:h-[600px] relative group"
+                className="w-full max-w-5xl bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-lg shadow-2xl border border-terminal-gray/20 overflow-hidden flex flex-col min-h-[780px] sm:min-h-[730px] md:h-[680px] relative group"
             >
                 {/* CRT Overlay Effect */}
                 <div className="absolute inset-0 pointer-events-none z-50 opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
@@ -57,6 +58,7 @@ export default function TerminalWindow() {
                         <div className="space-y-3 sm:space-y-4">
                             <AsciiClock />
                             <WeatherWidget />
+                            <HackathonCountdownWidget />
                         </div>
 
                         <div className="mt-auto pt-4 sm:pt-6 border-t border-terminal-gray/10">

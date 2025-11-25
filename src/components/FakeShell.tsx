@@ -9,6 +9,12 @@ const COMMANDS = [
     { cmd: "ping zadar.server", output: "Pong! Latency: 1ms" },
     { cmd: "whoami", output: "User: Guest | Role: Observer" },
     { cmd: "cat team_status.txt", output: "Status: READY TO DEPLOY" },
+    { cmd: "ls -la projects/", output: "drwxr-xr-x  5 cloudzz  hackathon  160 Dec  2 00:00 hackathon-2025" },
+    { cmd: "git status", output: "On branch main | Your branch is up to date with 'origin/main'" },
+    { cmd: "npm run build", output: "✓ Compiled successfully in 2.3s" },
+    { cmd: "curl -s api.cloudzz.dev/status", output: '{"status":"operational","uptime":"99.9%"}' },
+    { cmd: "docker ps", output: "CONTAINER ID   STATUS    PORTS         NAMES\nf3a9c12e4b5d   Up 7 days 0.0.0.0:3000  cloudzz-app" },
+    { cmd: "system-check --verbose", output: "✓ All systems operational | ✓ Database connected | ✓ CDN active" },
 ];
 
 export default function FakeShell() {
