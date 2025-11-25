@@ -45,7 +45,7 @@ export default function TerminalWindow() {
                     <TerminalParticles />
 
                     {/* Left Panel: Shell */}
-                    <div className="flex-1 bg-terminal-light/50 p-2 border-r border-terminal-gray/10 relative z-10">
+                    <div className="flex-1 bg-white/50 dark:bg-black/50 p-2 border-r border-terminal-gray/10 relative z-10">
                         <FakeShell />
                     </div>
 

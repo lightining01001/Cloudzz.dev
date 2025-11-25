@@ -106,7 +106,7 @@ export default function Arsenal() {
                                             alt={logo.name}
                                             width={64}
                                             height={64}
-                                            className="object-contain max-w-full max-h-full"
+                                            className="object-contain max-w-full max-h-full dark:invert"
                                             priority
                                         />
                                     </div>

@@ -16,7 +16,7 @@ export default function AsciiClock() {
     }, []);
 
     return (
-        <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 backdrop-blur-sm">
+        <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 dark:bg-black/50 backdrop-blur-sm">
             <div className="text-xs text-terminal-gray mb-1">LOCAL_TIME</div>
             <div className="font-mono text-2xl md:text-4xl font-bold text-terminal-amber tracking-widest">
                 {time}

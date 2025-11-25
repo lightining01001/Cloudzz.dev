@@ -26,8 +26,8 @@ export default function RootLayout({
         className={`${spaceMono.variable} antialiased`}
       >
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
+          attribute="data-theme"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

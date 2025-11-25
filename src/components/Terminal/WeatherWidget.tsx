@@ -72,7 +72,7 @@ export default function WeatherWidget() {
 
     if (loading) {
         return (
-            <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 backdrop-blur-sm animate-pulse">
+            <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 dark:bg-black/50 backdrop-blur-sm animate-pulse">
                 <div className="h-4 w-24 bg-terminal-gray/20 rounded mb-2"></div>
                 <div className="h-10 w-full bg-terminal-gray/20 rounded mb-2"></div>
                 <div className="h-4 w-full bg-terminal-gray/20 rounded"></div>
@@ -82,7 +82,7 @@ export default function WeatherWidget() {
 
     if (error || !weather) {
         return (
-            <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 backdrop-blur-sm">
+            <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 dark:bg-black/50 backdrop-blur-sm">
                 <div className="text-xs text-terminal-gray mb-1">WEATHER_ZADAR</div>
                 <div className="text-terminal-red text-sm">Unavailable</div>
             </div>
@@ -90,7 +90,7 @@ export default function WeatherWidget() {
     }
 
     return (
-        <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 backdrop-blur-sm transition-all hover:bg-white/60">
+        <div className="border border-terminal-gray/30 p-4 rounded bg-white/50 dark:bg-black/50 backdrop-blur-sm transition-all hover:bg-white/60 dark:hover:bg-black/60">
             <div className="text-xs text-terminal-gray mb-1">WEATHER_ZADAR</div>
             <div className="flex items-center gap-4">
                 <div className="text-4xl" role="img" aria-label={weather.condition}>
