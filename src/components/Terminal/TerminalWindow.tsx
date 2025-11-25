@@ -1,0 +1,67 @@
+"use client";
+
+import { motion } from "framer-motion";
+import FakeShell from "../FakeShell";
+import AsciiArt from "./AsciiArt";
+import AsciiClock from "./AsciiClock";
+import WeatherWidget from "./WeatherWidget";
+
+export default function TerminalWindow() {
+    return (
+        <section className="min-h-screen py-20 px-4 flex items-center justify-center relative z-10">
+            <motion.div
+                initial={{ opacity: 0, scaleY: 0.01, scaleX: 0.8 }}
+                whileInView={{ opacity: 1, scaleY: 1, scaleX: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{
+                    duration: 0.6,
+                    ease: "circOut",
+                    opacity: { duration: 0.2 }
+                }}
+                className="w-full max-w-5xl bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-lg shadow-2xl border border-terminal-gray/20 overflow-hidden flex flex-col h-[600px] relative group"
+            >
+                {/* CRT Overlay Effect */}
+                <div className="absolute inset-0 pointer-events-none z-50 opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
+                <div className="absolute inset-0 pointer-events-none z-50 opacity-20 radial-gradient-crt" />
+
+                {/* Terminal Header */}
+                <div className="bg-terminal-gray/5 border-b border-terminal-gray/10 p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500" />
+                        <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                        <div className="w-3 h-3 rounded-full bg-green-500" />
+                    </div>
+                    <div className="text-xs font-mono text-terminal-gray/60">
+                        user@cloudzz-zadar:~
+                    </div>
+                    <div className="w-10" /> {/* Spacer for centering */}
+                </div>
+
+                {/* Terminal Body */}
+                <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+                    {/* Left Panel: Shell */}
+                    <div className="flex-1 bg-terminal-light/50 p-2 border-r border-terminal-gray/10">
+                        <FakeShell />
+                    </div>
+
+                    {/* Right Panel: Widgets */}
+                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-6 flex flex-col gap-6 overflow-y-auto">
+                        <AsciiArt />
+                        <div className="space-y-4">
+                            <AsciiClock />
+                            <WeatherWidget />
+                        </div>
+
+                        <div className="mt-auto pt-6 border-t border-terminal-gray/10">
+                            <div className="text-xs font-mono text-terminal-gray/50 text-center">
+                                SYSTEM STATUS: ONLINE
+                                <br />
+                                UPTIME: 99.9%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </section>
+    );
+}

@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  /* Light Mode: Clean Cyber-lab */
+  --background: #f0f4f8;
+  --foreground: #1e293b;
+  --terminal-green: #0ea5e9;
+  /* Soft Blue */
+  --terminal-amber: #8b5cf6;
+  /* Soft Purple */
+  --terminal-gray: #475569;
+  --terminal-light: #ffffff;
+  --particles-color-1: #0ea5e9;
+  --particles-color-2: #8b5cf6;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode: Hacker Terminal */
+  --background: #0a0a0a;
+  --foreground: #e5e5e5;
+  --terminal-green: #00ff9d;
+  /* Bright Teal/Green */
+  --terminal-amber: #ffb86c;
+  /* Warm Amber */
+  --terminal-gray: #a3a3a3;
+  --terminal-light: #171717;
+  --particles-color-1: #00ff9d;
+  --particles-color-2: #00bcd4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-terminal-green: var(--terminal-green);
+  --color-terminal-amber: var(--terminal-amber);
+  --color-terminal-gray: var(--terminal-gray);
+  --color-terminal-light: var(--terminal-light);
+
+  --font-mono: var(--font-space-mono), monospace;
+
+  --animate-blink: blink 1s step-end infinite;
+
+  @keyframes blink {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .glass {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* CRT Scanline Animation */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.radial-gradient-crt {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.4) 100%);
+}
