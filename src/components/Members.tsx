@@ -6,8 +6,8 @@ import { useState, useRef, useEffect } from "react";
 const members = [
     {
         name: "Leon",
-        role: "Full Stack Developer",
-        quote: "Software is cool but have you ever had a Radio... yk I love software",
+        role: "Full Stack Developer (kinda)",
+        quote: "Software is cool but have you ever had a Radio... jk I love software",
     },
     {
         name: "Roko",
@@ -16,7 +16,7 @@ const members = [
     },
     {
         name: "Frane",
-        role: "Backend Engineer",
+        role: "Idea Engineer",
         quote: "We are so back baby",
     },
 ];
@@ -119,7 +119,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
             viewport={{ once: true, margin: "-50px" }}
             transition={{ delay: index * 0.2 }}
             id={`member-card-${index}`}
-            className="glass-card p-6 sm:p-8 rounded-xl hover:scale-105 active:scale-105 transition-transform duration-300 relative overflow-hidden group min-h-[280px] sm:min-h-[300px] touch-manipulation"
+            className="cursor-hover glass-card p-6 sm:p-8 rounded-xl hover:scale-105 active:scale-105 transition-transform duration-300 relative overflow-hidden group min-h-[280px] sm:min-h-[300px] touch-manipulation"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouchStart}

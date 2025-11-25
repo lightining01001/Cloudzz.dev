@@ -98,7 +98,7 @@ export default function Arsenal() {
                                     href={logo.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex flex-col items-center gap-4 transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(var(--terminal-green),0.5)] cursor-pointer z-30"
+                                    className="cursor-hover flex flex-col items-center gap-4 transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(var(--terminal-green),0.5)] cursor-pointer z-30"
                                 >
                                     <div className="relative w-16 h-16 flex items-center justify-center">
                                         <Image
