@@ -28,8 +28,11 @@ export default function GlobalConnectionSystem() {
     const lineProgress = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
     const lineOpacity = useTransform(scrollYProgress, [0, 0.05, 0.45, 0.55], [0, 1, 1, 0]);
 
-    // Arrow opacity - fade out in the last 20% of travel as they approach avatars
-    const arrowOpacity = useTransform(lineProgress, [0, 0.1, 0.75, 1], [0, 1, 1, 0]);
+    // Light pulse intensity - maintain throughout travel
+    const lightIntensity = useTransform(lineProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+
+    // Stroke dash offset for fiber optic animation
+    const strokeDashOffset = useTransform(lineProgress, (v) => 1100 - (v * 1100));
 
     // Detect mobile on mount
     useEffect(() => {
@@ -102,14 +105,27 @@ export default function GlobalConnectionSystem() {
                     return "";
                 }
 
-                // Target the avatar circle center instead of card top
+                // Target exactly at the avatar border
                 const avatar = avatars[idx];
                 let endX, endY;
 
                 if (avatar) {
                     const avatarRect = avatar.getBoundingClientRect();
-                    endX = avatarRect.left + avatarRect.width / 2 - containerRect.left;
-                    endY = avatarRect.top + avatarRect.height / 2 + scrollY - (containerRect.top + scrollY);
+                    const avatarCenterX = avatarRect.left + avatarRect.width / 2 - containerRect.left;
+                    const avatarCenterY = avatarRect.top + avatarRect.height / 2 + scrollY - (containerRect.top + scrollY);
+
+                    // Calculate the radius of the avatar and stop the line exactly at the border
+                    const avatarRadius = avatarRect.width / 2;
+                    const offset = avatarRadius; // Stop exactly at the avatar edge
+
+                    // Calculate the direction from start to avatar center
+                    const dx = avatarCenterX - startX;
+                    const dy = avatarCenterY - startY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // Stop the line exactly at the avatar border
+                    endX = avatarCenterX - (dx / distance) * offset;
+                    endY = avatarCenterY - (dy / distance) * offset;
                 } else {
                     // Fallback to card position if avatar not found
                     const cardRect = card.getBoundingClientRect();
@@ -189,68 +205,68 @@ export default function GlobalConnectionSystem() {
                         </feMerge>
                     </filter>
 
-                    {/* Glassmorphism gradient for the arrow */}
-                    <radialGradient id="glassGradient">
-                        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
-                        <stop offset="50%" stopColor="var(--terminal-green)" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="var(--terminal-green)" stopOpacity="0.2" />
-                    </radialGradient>
+                    {/* Fiber optic light gradient */}
+                    <linearGradient id="fiberLight" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="var(--terminal-green)" stopOpacity="0" />
+                        <stop offset="30%" stopColor="var(--terminal-green)" stopOpacity="0.3" />
+                        <stop offset="50%" stopColor="#00ff88" stopOpacity="1" />
+                        <stop offset="70%" stopColor="var(--terminal-green)" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="var(--terminal-green)" stopOpacity="0" />
+                    </linearGradient>
+
+                    {/* Glow filter for the light pulse */}
+                    <filter id="lightGlow" x="-200%" y="-200%" width="500%" height="500%">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feGaussianBlur stdDeviation="6" result="coloredBlur2" />
+                        <feMerge>
+                            <feMergeNode in="coloredBlur2" />
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
                 </defs>
 
                 {/* Three Lines: Hero to Each Profile */}
                 {linePaths.map((path, index) => (
-                    <g key={index}>
-                        {path && (
-                            <>
-                                <motion.path
-                                    ref={(el) => {
-                                        linePathRefs.current[index] = el;
-                                    }}
-                                    d={path}
-                                    fill="none"
-                                    stroke="var(--terminal-green)"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    filter="url(#neonGlow)"
-                                    initial={{ pathLength: 0, opacity: 0 }}
-                                    animate={{ pathLength: 1, opacity: 0.4 }}
-                                    transition={{ duration: 2, delay: index * 0.2, ease: "easeInOut" }}
-                                />
-
-                                {/* Transparent Arrow Tracer - Desktop only */}
-                                {!isMobile && (
-                                    <g transform={`translate(${lineTracerPos[index]?.x || 0}, ${lineTracerPos[index]?.y || 0}) scale(${arrowScale})`}>
-                                        {/* Outer glow */}
-                                        <motion.circle
-                                            r={glowRadius}
-                                            fill="var(--terminal-green)"
-                                            opacity="0.05"
-                                            style={{ opacity: arrowOpacity }}
-                                        />
-
-                                        {/* Arrow shape pointing down */}
+                    // Render only the middle line on mobile, all lines on desktop
+                    (!isMobile || index === 1) && (
+                        <g key={index}>
+                            {path && (
+                                <>
+                                    <motion.path
+                                        ref={(el) => {
+                                            linePathRefs.current[index] = el;
+                                        }}
+                                        d={path}
+                                        fill="none"
+                                        stroke="var(--terminal-green)"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        filter="url(#neonGlow)"
+                                        initial={{ pathLength: 0, opacity: 0 }}
+                                        animate={{ pathLength: 1, opacity: 0.4 }}
+                                        transition={{ duration: 2, delay: index * 0.2, ease: "easeInOut" }}
+                                    />
+                                    {/* Fiber Optic Light Pulse - Mobile: middle line only, Desktop: all lines */}
+                                    {(isMobile ? index === 1 : true) && (
                                         <motion.path
-                                            d="M 0,-8 L 4,-3 L 1,-3 L 1,8 L -1,8 L -1,-3 L -4,-3 Z"
-                                            fill="var(--terminal-green)"
-                                            stroke="var(--terminal-green)"
-                                            strokeWidth="0.5"
-                                            opacity="0.4"
-                                            filter="url(#glassDistortion)"
-                                            style={{ opacity: arrowOpacity }}
+                                            d={path}
+                                            fill="none"
+                                            stroke="url(#fiberLight)"
+                                            strokeWidth={isMobile ? "4" : "6"}
+                                            strokeLinecap="round"
+                                            filter="url(#lightGlow)"
+                                            strokeDasharray="100 1000"
+                                            style={{
+                                                strokeDashoffset: strokeDashOffset,
+                                                opacity: lightIntensity
+                                            }}
                                         />
-
-                                        {/* Inner highlight for glass effect */}
-                                        <motion.path
-                                            d="M -0.5,-5 L 1,-3.5 L 0.5,-3.5 L 0.5,3 L -0.5,3 Z"
-                                            fill="#ffffff"
-                                            opacity="0.3"
-                                            style={{ opacity: arrowOpacity }}
-                                        />
-                                    </g>
-                                )}
-                            </>
-                        )}
-                    </g>
+                                    )}
+                                </>
+                            )}
+                        </g>
+                    )
                 ))}
             </svg>
         </div>
