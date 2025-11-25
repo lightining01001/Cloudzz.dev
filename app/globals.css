@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#f0f2f5] font-mono text-gray-800;
+}
+
+.glass-card {
+  @apply bg-white bg-opacity-15 backdrop-blur-lg rounded-lg border border-white border-opacity-20 shadow-lg;
+}
+
+.crt-glow {
+  text-shadow: 0 0 5px rgba(0, 170, 255, 0.5), 0 0 10px rgba(0, 170, 255, 0.3);
+}
+
+.blinking-cursor::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
