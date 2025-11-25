@@ -11,7 +11,7 @@ export default function Hero() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-center"
             >
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tighter">
+                <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tighter">
                     Cloudzz Hackathon Team
                     <span className="block text-terminal-green mt-2">— Zadar</span>
                 </h1>

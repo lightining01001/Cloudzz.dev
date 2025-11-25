@@ -6,6 +6,8 @@ import AsciiArt from "./AsciiArt";
 import AsciiClock from "./AsciiClock";
 import WeatherWidget from "./WeatherWidget";
 
+import TerminalParticles from "./TerminalParticles";
+
 export default function TerminalWindow() {
     return (
         <section className="min-h-screen py-20 px-4 flex items-center justify-center relative z-10">
@@ -25,7 +27,7 @@ export default function TerminalWindow() {
                 <div className="absolute inset-0 pointer-events-none z-50 opacity-20 radial-gradient-crt" />
 
                 {/* Terminal Header */}
-                <div className="bg-terminal-gray/5 border-b border-terminal-gray/10 p-3 flex items-center justify-between">
+                <div className="bg-terminal-gray/5 border-b border-terminal-gray/10 p-3 flex items-center justify-between relative z-20">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500" />
                         <div className="w-3 h-3 rounded-full bg-yellow-500" />
@@ -38,15 +40,20 @@ export default function TerminalWindow() {
                 </div>
 
                 {/* Terminal Body */}
-                <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+                <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+                    {/* Background Particles */}
+                    <TerminalParticles />
+
                     {/* Left Panel: Shell */}
-                    <div className="flex-1 bg-terminal-light/50 p-2 border-r border-terminal-gray/10">
+                    <div className="flex-1 bg-terminal-light/50 p-2 border-r border-terminal-gray/10 relative z-10">
                         <FakeShell />
                     </div>
 
                     {/* Right Panel: Widgets */}
-                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-6 flex flex-col gap-6 overflow-y-auto">
-                        <AsciiArt />
+                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-6 flex flex-col gap-6 overflow-y-auto relative z-10">
+                        <div className="flex justify-center">
+                            <AsciiArt />
+                        </div>
                         <div className="space-y-4">
                             <AsciiClock />
                             <WeatherWidget />

@@ -19,15 +19,15 @@ export default function About() {
 
                     <div className="space-y-6 text-lg text-terminal-gray">
                         <p>
-                            We are a team of passionate developers from Zadar, driven by the thrill of hackathons and the challenge of building innovative solutions under tight deadlines.
+                            Hi, we are 3 teenagers from Zadar and we enjoy basically everything tech, and hackathons fall into that spectrum.
                         </p>
 
                         <ul className="space-y-4 mt-6">
                             {[
-                                "Rapid prototyping & deployment",
-                                "Full-stack development expertise",
-                                "Creative problem solving",
-                                "Coffee-fueled coding sessions"
+                                "We love trying out new things",
+                                "We enjoy coding and learning along the way",
+                                "We love to hear new tips and tricks",
+                                "Besides coding, we love hardware and CTFs"
                             ].map((item, index) => (
                                 <li key={index} className="flex items-center gap-3">
                                     <span className="text-terminal-green">./</span>

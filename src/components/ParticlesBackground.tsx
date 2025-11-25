@@ -166,7 +166,7 @@ export default function ParticlesBackground() {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none transition-opacity duration-1000"
+            className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000"
         />
     );
 }

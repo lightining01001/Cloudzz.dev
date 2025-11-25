@@ -42,13 +42,12 @@ export default function AsciiArt() {
 
     return (
         <motion.div
-            style={{ x: glitchX, skewX: glitchSkew }}
-            className="relative group"
+            className="relative group flex justify-center"
         >
             <motion.pre
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="font-mono text-xs md:text-sm leading-none text-terminal-green whitespace-pre overflow-hidden relative z-10"
+                className="font-mono text-[10px] md:text-xs leading-none text-terminal-green whitespace-pre overflow-hidden relative z-10 text-center mx-auto"
             >
                 {ART_FRAMES[frame]}
             </motion.pre>
@@ -62,9 +61,9 @@ export default function AsciiArt() {
                 transition={{
                     repeat: Infinity,
                     duration: 0.2,
-                    repeatDelay: Math.random() * 5
+                    repeatDelay: 2
                 }}
-                className="absolute top-0 left-0 font-mono text-xs md:text-sm leading-none text-terminal-amber whitespace-pre overflow-hidden opacity-50 mix-blend-screen pointer-events-none"
+                className="absolute top-0 left-1/2 -translate-x-1/2 font-mono text-[10px] md:text-xs leading-none text-terminal-amber whitespace-pre overflow-hidden opacity-50 mix-blend-screen pointer-events-none text-center"
             >
                 {ART_FRAMES[frame]}
             </motion.pre>
