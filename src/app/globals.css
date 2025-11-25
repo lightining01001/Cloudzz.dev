@@ -59,6 +59,11 @@ body {
   font-family: var(--font-mono);
   overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="rgba(0,255,157,0.6)" stroke="rgba(0,255,157,0.8)" stroke-width="1" d="M3 3 L3 18 L10 13 L14 21 L16 20 L12 12 L21 12 Z"/></svg>') 4 4, auto;
+}
+
+[data-theme="dark"] body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="rgba(0,255,157,0.6)" stroke="rgba(0,255,157,0.8)" stroke-width="1" d="M3 3 L3 18 L10 13 L14 21 L16 20 L12 12 L21 12 Z"/></svg>') 4 4, auto;
 }
 
 /* Glassmorphism utilities */
