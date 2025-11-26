@@ -51,7 +51,7 @@ export default function TerminalWindow() {
                     </div>
 
                     {/* Right Panel: Widgets */}
-                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 relative z-10">
+                    <div className="w-full md:w-80 bg-white/40 dark:bg-black/40 p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 relative z-10 overflow-y-auto">
                         <div className="flex justify-center">
                             <AsciiArt />
                         </div>

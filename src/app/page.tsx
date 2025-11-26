@@ -6,6 +6,7 @@ import TerminalWindow from "@/components/Terminal/TerminalWindow";
 import Contact from "@/components/Contact";
 import Arsenal from "@/components/Arsenal";
 import GlobalConnectionSystem from "@/components/GlobalConnectionSystem";
+import MapSection from "@/components/MapSection";
 
 export default function Home() {
   return (
@@ -16,8 +17,8 @@ export default function Home() {
       <About />
       <Members />
       <Arsenal />
-
       <TerminalWindow />
+      <MapSection />
       <Contact />
     </main>
   );

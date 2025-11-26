@@ -238,3 +238,31 @@ body {
   animation: glitch-anim-2 0.2s infinite linear alternate-reverse;
   clip-path: inset(10% 0 60% 0);
 }
+
+/* ASCII Map Styles */
+.ascii-map-container {
+  position: relative;
+  background: var(--terminal-light);
+  border: 1px solid var(--terminal-gray);
+  overflow: hidden;
+  min-height: 200px;
+}
+
+/* ASCII Map Pulse Animation for Marker */
+@keyframes ascii-pulse {
+
+  0%,
+  100% {
+    text-shadow: 0 0 4px var(--terminal-green), 0 0 8px var(--terminal-green);
+    transform: scale(1);
+  }
+
+  50% {
+    text-shadow: 0 0 8px var(--terminal-green), 0 0 16px var(--terminal-green), 0 0 24px var(--terminal-green);
+    transform: scale(1.2);
+  }
+}
+
+.ascii-map-marker {
+  animation: ascii-pulse 2s ease-in-out infinite;
+}
