@@ -7,11 +7,6 @@ import Image from "next/image";
 
 const LOGOS = [
     {
-        name: "C",
-        src: "/C_Logo.png",
-        href: "https://en.cppreference.com/w/c",
-    },
-    {
         name: "C++",
         src: "/ISO_C++_Logo.svg.png",
         href: "https://isocpp.org/",
@@ -35,6 +30,16 @@ const LOGOS = [
         name: "ChatGPT",
         src: "/openai.svg",
         href: "https://openai.com/chatgpt",
+    },
+    {
+        name: "C",
+        src: "/C_Logo.png",
+        href: "https://en.cppreference.com/w/c",
+    },
+    {
+        name: "Linux",
+        src: "/linux.png",
+        href: "https://www.gnu.org/gnu/linux-and-gnu.html",
     },
     {
         name: "Google Gemini",
