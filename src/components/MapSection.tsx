@@ -12,7 +12,7 @@ export default function MapSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="glass p-8 md:p-12 rounded-2xl"
+                    className="glass-card p-8 md:p-12 rounded-2xl"
                 >
                     <h2 className="text-3xl font-bold mb-8 text-terminal-green flex items-center gap-2">
                         <span className="text-terminal-amber">{">"}</span> Hackathon_Location

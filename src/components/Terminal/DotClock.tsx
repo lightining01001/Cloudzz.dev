@@ -6,10 +6,16 @@ import { motion } from "framer-motion";
 export default function DotClock() {
     const [time, setTime] = useState(new Date());
 
+    const [mounted, setMounted] = useState(false);
+
     useEffect(() => {
+        console.log("DotClock mounted");
+        setMounted(true);
         const interval = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(interval);
     }, []);
+
+    if (!mounted) return null;
 
     const hours = time.getHours() % 12;
     const minutes = time.getMinutes();

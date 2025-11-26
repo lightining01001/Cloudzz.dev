@@ -1,4 +1,3 @@
-import ParticlesBackground from "@/components/ParticlesBackground";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Members from "@/components/Members";
@@ -8,10 +7,12 @@ import Arsenal from "@/components/Arsenal";
 import GlobalConnectionSystem from "@/components/GlobalConnectionSystem";
 import MapSection from "@/components/MapSection";
 
+import StormCloud from "@/components/StormCloud";
+
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden">
-      <ParticlesBackground />
+      <StormCloud />
       <GlobalConnectionSystem />
       <Hero />
       <About />

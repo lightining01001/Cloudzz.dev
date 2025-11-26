@@ -11,7 +11,7 @@ export default function Contact() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="glass p-12 rounded-2xl"
+                    className="glass-card p-12 rounded-2xl"
                 >
                     <h2 className="text-3xl font-bold mb-6 text-terminal-green">
                         <span className="text-terminal-amber">./</span>contact_us
