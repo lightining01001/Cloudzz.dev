@@ -34,7 +34,8 @@ export default function Contact() {
                 </motion.div>
 
                 <footer className="mt-20 text-sm text-terminal-gray/40 font-mono">
-                    © {new Date().getFullYear()} Cloudzz Hackathon Team — Zadar. All rights reserved.
+                    <p className="mb-2">Built with ♥, a little AI and a lot of caffeine • Powered by Next.js</p>
+                    <p>© {new Date().getFullYear()} Cloudzz Hackathon Team — Zadar. All rights reserved.</p>
                 </footer>
             </div>
         </section>
