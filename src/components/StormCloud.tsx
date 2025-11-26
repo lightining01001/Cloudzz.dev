@@ -83,15 +83,16 @@ export default function StormCloud() {
                 // Layer 1 (Background)
                 float x1 = floor(uv.x * 15.0);
                 float h1 = hash(vec2(x1, 12.0)) * 0.25;
-                if (uv.y < h1 - (1.0 - scroll) * 0.3) y += 0.5; // rising with scroll
+                // Adjusted to be visible at scroll 0 (changed 0.3 to 0.05 offset)
+                if (uv.y < h1 - (1.0 - scroll) * 0.05) y += 0.5; 
                 
                 // Layer 2 (Foreground)
                 float x2 = floor(uv.x * 10.0 + 0.5);
                 float h2 = hash(vec2(x2, 45.0)) * 0.4;
                 // Thin antennas
-                if (fract(uv.x * 10.0 + 0.5) > 0.4 && fract(uv.x * 10.0 + 0.5) < 0.6 && uv.y < h2 + 0.1 - (1.0 - scroll) * 0.3) y += 0.8;
+                if (fract(uv.x * 10.0 + 0.5) > 0.4 && fract(uv.x * 10.0 + 0.5) < 0.6 && uv.y < h2 + 0.1 - (1.0 - scroll) * 0.05) y += 0.8;
                 // Main building body
-                if (uv.y < h2 - (1.0 - scroll) * 0.3) y = 1.0;
+                if (uv.y < h2 - (1.0 - scroll) * 0.05) y = 1.0;
                 
                 return y;
             }
@@ -112,7 +113,8 @@ export default function StormCloud() {
                 // Basic Cloud Layer
                 float cloud = fbm(q * 6.0 + fbm(q * 6.0));
                 
-                float density = mix(0.4, 0.7, scrollFactor);
+                // Increased base density for mobile visibility
+                float density = mix(0.5, 0.8, scrollFactor); 
                 float cloudCover = smoothstep(0.3, density, cloud);
 
                 // Colors
@@ -133,12 +135,12 @@ export default function StormCloud() {
                 }
 
                 // Cityscape Layer (Silhouettes)
-                // Only appear when scrolling down
-                if (scrollFactor > 0.1) {
-                    float buildings = cityscape(uv, scrollFactor);
-                    // Mix buildings as dark silhouettes
-                    color = mix(color, vec3(0.02, 0.02, 0.05), buildings * smoothstep(0.0, 0.5, scrollFactor));
-                }
+                // Always calculate buildings, but modulate visibility
+                float buildings = cityscape(uv, scrollFactor);
+                
+                // Make buildings visible even at scroll 0, but darker/subtler
+                float buildingVisibility = smoothstep(-0.1, 0.5, scrollFactor + 0.2); 
+                color = mix(color, vec3(0.02, 0.02, 0.05), buildings * buildingVisibility);
 
                 // Realistic Lightning Bolts
                 if (u_lightning > 0.0) {
