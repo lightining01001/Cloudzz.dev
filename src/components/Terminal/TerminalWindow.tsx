@@ -14,8 +14,7 @@ export default function TerminalWindow() {
         <section className="min-h-screen py-12 sm:py-16 md:py-20 px-4 flex items-center justify-center relative z-10">
             <motion.div
                 initial={{ opacity: 0, scaleY: 0.01, scaleX: 0.8 }}
-                whileInView={{ opacity: 1, scaleY: 1, scaleX: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
+                animate={{ opacity: 1, scaleY: 1, scaleX: 1 }}
                 transition={{
                     duration: 0.6,
                     ease: "circOut",
