@@ -78,21 +78,21 @@ export default function StormCloud() {
 
 
             // Procedural Cityscape
-            float cityscape(vec2 uv, float scroll) {
+            float cityscape(vec2 uv, float verticalShift) {
                 float y = 0.0;
                 // Layer 1 (Background)
                 float x1 = floor(uv.x * 15.0);
                 float h1 = hash(vec2(x1, 12.0)) * 0.25;
-                // Adjusted to be visible at scroll 0 (changed 0.3 to 0.05 offset)
-                if (uv.y < h1 - (1.0 - scroll) * 0.05) y += 0.5; 
+                // Apply vertical shift: subtract shift from height threshold
+                if (uv.y < h1 - verticalShift) y += 0.5; 
                 
                 // Layer 2 (Foreground)
                 float x2 = floor(uv.x * 10.0 + 0.5);
                 float h2 = hash(vec2(x2, 45.0)) * 0.4;
                 // Thin antennas
-                if (fract(uv.x * 10.0 + 0.5) > 0.4 && fract(uv.x * 10.0 + 0.5) < 0.6 && uv.y < h2 + 0.1 - (1.0 - scroll) * 0.05) y += 0.8;
+                if (fract(uv.x * 10.0 + 0.5) > 0.4 && fract(uv.x * 10.0 + 0.5) < 0.6 && uv.y < h2 + 0.1 - verticalShift) y += 0.8;
                 // Main building body
-                if (uv.y < h2 - (1.0 - scroll) * 0.05) y = 1.0;
+                if (uv.y < h2 - verticalShift) y = 1.0;
                 
                 return y;
             }
@@ -111,10 +111,11 @@ export default function StormCloud() {
                 q.y += 0.005 * u_time; 
 
                 // Basic Cloud Layer
-                float cloud = fbm(q * 6.0 + fbm(q * 6.0));
+                // Increased frequency for better detail on small screens
+                float cloud = fbm(q * 8.0 + fbm(q * 8.0));
                 
                 // Increased base density for mobile visibility
-                float density = mix(0.5, 0.8, scrollFactor); 
+                float density = mix(0.6, 0.9, scrollFactor); 
                 float cloudCover = smoothstep(0.3, density, cloud);
 
                 // Colors
@@ -123,8 +124,8 @@ export default function StormCloud() {
                 
                 vec3 color = mix(skyColor, cloudColor, cloudCover);
 
-                // Rain Layer
-                if (scrollFactor > 0.1) {
+                // Rain Layer - Start at Team Members (0.25)
+                if (scrollFactor > 0.25) {
                     vec2 rainUV = uv;
                     rainUV.y += u_time * 2.0;
                     rainUV.x += u_time * 0.1;
@@ -135,23 +136,40 @@ export default function StormCloud() {
                 }
 
                 // Cityscape Layer (Silhouettes)
-                // Always calculate buildings, but modulate visibility
-                float buildings = cityscape(uv, scrollFactor);
+                // Calculate vertical shift for rising effect
+                // At scroll 0, shift is 0.3 (buildings hidden). At scroll 0.15, shift is 0.0 (buildings fully up).
+                float verticalShift = (1.0 - smoothstep(0.0, 0.15, scrollFactor)) * 0.3;
                 
-                // Make buildings visible even at scroll 0, but darker/subtler
-                float buildingVisibility = smoothstep(-0.1, 0.5, scrollFactor + 0.2); 
-                color = mix(color, vec3(0.02, 0.02, 0.05), buildings * buildingVisibility);
+                // Pass shift to cityscape (we need to update the function signature first, or just inline the shift logic here)
+                // Actually, let's update the cityscape function to use the shift.
+                // But since I can't easily change the function signature in this replace block without changing the whole file structure,
+                // I will modify the cityscape function call to include the shift in the UV or modify the function itself in a separate block.
+                // Wait, I can replace the whole main and cityscape function if needed, or just the main part and use a uniform-like approach?
+                // No, let's just update the cityscape function in a separate call or do it all here if I include the function.
+                // I'll assume I update the function in the next step or do it now.
+                // Let's do the lightning part first here and the cityscape call.
+                
+                // I will update the cityscape function to take 'verticalShift' instead of 'scroll' or in addition.
+                // For now, let's assume I'll update the function.
+                float buildings = cityscape(uv, verticalShift); 
+                
+                // Visibility is now controlled by the physical rise, so we can simplify the mixing
+                color = mix(color, vec3(0.02, 0.02, 0.05), buildings);
 
-                // Realistic Lightning Bolts
+                // Vignette (apply before lightning so lightning glows through?)
+                float vignette = 1.0 - length(gl_FragCoord.xy / u_resolution.xy - 0.5) * 1.0;
+                color *= vignette;
+
+                // Realistic Lightning Bolts (Render LAST to be on top)
                 if (u_lightning > 0.0) {
-                    // 1. Global Flash (Ambient)
-                    color += vec3(0.8, 0.9, 1.0) * u_lightning * 0.1;
+                    // 1. Global Flash (Ambient) - boosted
+                    color += vec3(0.8, 0.9, 1.0) * u_lightning * 0.2; 
                     
                     // 2. The Bolt
                     vec2 boltUV = uv;
                     
                     // Random Angle (Skew)
-                    float angle = (hash(vec2(u_seed, 2.0)) - 0.5) * 1.5; // -0.75 to 0.75 skew
+                    float angle = (hash(vec2(u_seed, 2.0)) - 0.5) * 1.5; 
                     boltUV.x += boltUV.y * angle;
                     
                     // Position
@@ -161,22 +179,21 @@ export default function StormCloud() {
                     float boltDistortion = fbmLightning(vec2(boltUV.y * 15.0, u_time)) * 0.05;
                     float boltWidth = abs(boltUV.x + boltDistortion);
                     
-                    // Glow intensity
-                    float boltIntensity = 0.0015 / max(boltWidth, 0.0001);
+                    // Glow intensity - significantly boosted
+                    float boltIntensity = 0.004 / max(boltWidth, 0.0001); 
                     
                     // Mask: Fade out at bottom (behind buildings?), keep top strong
-                    boltIntensity *= smoothstep(0.0, 0.2, boltUV.y); 
+                    // Less fade at bottom now to ensure visibility
+                    boltIntensity *= smoothstep(0.0, 0.1, boltUV.y); 
                     
-                    // Add electric color
-                    vec3 boltColor = vec3(0.7, 0.8, 1.0) * boltIntensity * u_lightning * 2.0;
+                    // Add electric color - super bright
+                    vec3 boltColor = vec3(0.8, 0.9, 1.0) * boltIntensity * u_lightning * 4.0; 
                     
                     // Add to scene
                     color += boltColor;
                 }
 
-                // Vignette
-                float vignette = 1.0 - length(gl_FragCoord.xy / u_resolution.xy - 0.5) * 1.0;
-                color *= vignette;
+
 
                 gl_FragColor = vec4(color, 1.0);
             }
@@ -254,10 +271,11 @@ export default function StormCloud() {
             const scrollFraction = maxScroll > 0 ? window.scrollY / maxScroll : 0;
             gl.uniform1f(scrollLocation, scrollFraction);
 
-            // Lightning Logic - Start earlier (0.05)
-            if (time > startTime + nextLightningTime && scrollFraction > 0.05) {
+            // Lightning Logic - Start at Terminal (0.5)
+            // UPDATE: User requested lightning ONLY when scrolled down more (Terminal section).
+            if (time > startTime + nextLightningTime && scrollFraction > 0.5) {
                 lightningIntensity = 1.0;
-                nextLightningTime = time + Math.random() * 5000 + 2000; // Next flash in 2-7s
+                nextLightningTime = time + Math.random() * 3000 + 1000; // More frequent: 1-4s
                 currentSeed = Math.random() * 100.0; // New random position for this strike
             }
 
@@ -275,8 +293,10 @@ export default function StormCloud() {
 
         // Helper
         function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement) {
-            const displayWidth = canvas.clientWidth;
-            const displayHeight = canvas.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
+            const displayWidth = Math.floor(canvas.clientWidth * dpr);
+            const displayHeight = Math.floor(canvas.clientHeight * dpr);
+
             if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
                 canvas.width = displayWidth;
                 canvas.height = displayHeight;

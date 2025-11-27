@@ -46,6 +46,16 @@ const LOGOS = [
         src: "/gemini-google-icon-symbol-logo-free-png.webp",
         href: "https://deepmind.google/technologies/gemini/",
     },
+    {
+        name: "JetBrains",
+        src: "/jetbrains.webp",
+        href: "https://www.jetbrains.com/",
+    },
+    {
+        name: "Tailwind CSS",
+        src: "/tailwindcss.png",
+        href: "https://tailwindcss.com/",
+    },
 ];
 
 export default function Arsenal() {
@@ -80,24 +90,25 @@ export default function Arsenal() {
             </div>
 
             {/* Marquee Container */}
-            <div className="max-w-4xl mx-auto relative">
+            <div className="max-w-5xl mx-auto relative rounded-3xl overflow-hidden">
                 {/* Gradient Masks */}
                 <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--background)] to-transparent z-20 pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--background)] to-transparent z-20 pointer-events-none" />
 
                 {/* Glass Track */}
-                <div className="glass py-6 border border-terminal-gray/10 rounded-2xl">
+                <div className="glass py-6 border border-terminal-gray/10 rounded-3xl">
                     <div className="flex overflow-hidden">
                         <motion.div
-                            className="flex gap-16 items-center px-16 whitespace-nowrap"
+                            className="flex gap-16 items-center px-16 whitespace-nowrap w-max"
                             animate={{ x: ["0%", "-50%"] }}
                             transition={{
                                 repeat: Infinity,
                                 ease: "linear",
-                                duration: 30,
+                                duration: 60,
                             }}
                         >
-                            {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logo, index) => (
+                            {/* All logos - duplicated for smooth loop */}
+                            {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logo, index) => (
                                 <a
                                     key={index}
                                     href={logo.href}
