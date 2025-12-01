@@ -7,7 +7,7 @@ import AsciiClock from "./AsciiClock";
 import WeatherWidget from "./WeatherWidget";
 import HackathonCountdownWidget from "./HackathonCountdownWidget";
 
-import TerminalParticles from "./TerminalParticles";
+
 
 export default function TerminalWindow() {
     return (
@@ -45,8 +45,8 @@ export default function TerminalWindow() {
 
                 {/* Terminal Body */}
                 <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-                    {/* Background Particles */}
-                    <TerminalParticles />
+                    {/* Background Particles - REMOVED */}
+                    {/* <TerminalParticles /> */}
 
                     {/* Left Panel: Shell */}
                     <div className="flex-1 bg-white/50 dark:bg-black/50 p-2 border-r border-terminal-gray/10 relative z-10 min-h-[400px] md:min-h-0">
