@@ -115,7 +115,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
             viewport={{ once: true, margin: "-50px" }}
             transition={{ delay: index * 0.2 }}
             id={`member-card-${index}`}
-            className="cursor-hover glass-card p-6 sm:p-8 rounded-xl hover:scale-105 active:scale-105 transition-transform duration-300 relative overflow-hidden group min-h-[280px] sm:min-h-[300px] touch-manipulation"
+            className="cursor-hover glass-card p-6 sm:p-8 rounded-xl hover:scale-105 active:scale-105 transition-transform duration-300 relative overflow-hidden group min-h-[280px] sm:min-h-[300px] touch-manipulation max-md:!opacity-100 max-md:!transform-none"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >

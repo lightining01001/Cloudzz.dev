@@ -18,7 +18,7 @@ export default function GlassCard({ children, className, delay = 0, ...props }: 
             whileHover={{ scale: 1.02 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay }}
-            className={cn("glass-card p-8 md:p-12 rounded-2xl", className)}
+            className={cn("glass-card p-8 md:p-12 rounded-2xl max-md:!opacity-100 max-md:!transform-none", className)}
             {...props}
         >
             {children}
