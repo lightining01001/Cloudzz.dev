@@ -111,8 +111,11 @@ export default function StormCloud() {
                 q.y += 0.005 * u_time; 
 
                 // Basic Cloud Layer
-                // Increased frequency for better detail on small screens
-                float cloud = fbm(q * 8.0 + fbm(q * 8.0));
+                // Adjust scale based on aspect ratio to ensure visibility on mobile
+                float aspect = u_resolution.x / u_resolution.y;
+                float cloudScale = (aspect < 1.0) ? 14.0 : 8.0; // Higher scale for mobile (portrait)
+                
+                float cloud = fbm(q * cloudScale + fbm(q * cloudScale));
                 
                 // Increased base density for mobile visibility
                 float density = mix(0.6, 0.9, scrollFactor); 
@@ -162,7 +165,11 @@ export default function StormCloud() {
                     boltUV.x += boltUV.y * angle;
                     
                     // Position
-                    boltUV.x -= 0.5 + (hash(vec2(u_seed, 1.0)) - 0.5) * 2.0; 
+                    // Position - Scaled by aspect ratio for mobile
+                    float aspect = u_resolution.x / u_resolution.y;
+                    float center = aspect * 0.5;
+                    // Range: center +/- 75% of screen width
+                    boltUV.x -= center + (hash(vec2(u_seed, 1.0)) - 0.5) * aspect * 1.5; 
                     
                     // Distort the line
                     float boltDistortion = fbmLightning(vec2(boltUV.y * 15.0, u_time)) * 0.05;
