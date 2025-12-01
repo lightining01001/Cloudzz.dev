@@ -2,18 +2,13 @@
 
 import { motion } from "framer-motion";
 import OpenStreetMap from "./Terminal/AsciiMap";
+import GlassCard from "./GlassCard";
 
 export default function MapSection() {
     return (
         <section className="py-20 px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="glass-card p-8 md:p-12 rounded-2xl"
-                >
+                <GlassCard>
                     <h2 className="text-3xl font-bold mb-8 text-terminal-green flex items-center gap-2">
                         <span className="text-terminal-amber">{">"}</span> Hackathon_Location
                     </h2>
@@ -31,7 +26,7 @@ export default function MapSection() {
                             Interactive map • ● marks the hackathon venue
                         </p>
                     </div>
-                </motion.div>
+                </GlassCard>
             </div>
         </section>
     );

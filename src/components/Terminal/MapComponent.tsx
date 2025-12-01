@@ -9,6 +9,28 @@ import 'leaflet/dist/leaflet.css';
 const ZADAR_LAT = 44.1158;
 const ZADAR_LON = 15.2251;
 
+const MARKER_HTML = `
+<div style="
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  filter: drop-shadow(0 0 8px currentColor);
+  color: #00ff9d;
+  animation: pulse 3s ease-in-out infinite;
+">●</div>
+`;
+
+const POPUP_HTML = `
+<div style="font-family: 'Space Mono', monospace; text-align: center;">
+<strong style="color: #00ff9d;">Cloudzz Hackathon</strong><br/>
+Providurova palača<br/>
+<small>44.1158°N, 15.2251°E</small>
+</div>
+`;
+
 export default function MapComponent() {
     const { resolvedTheme } = useTheme();
     const mapRef = useRef<L.Map | null>(null);
@@ -30,19 +52,7 @@ export default function MapComponent() {
         // Custom marker icon (green/cyan pin matching your theme)
         const customIcon = L.divIcon({
             className: 'custom-marker',
-            html: `
-        <div style="
-          width: 32px;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          filter: drop-shadow(0 0 8px currentColor);
-          color: #00ff9d;
-          animation: pulse 2s ease-in-out infinite;
-        ">●</div>
-      `,
+            html: MARKER_HTML,
             iconSize: [32, 32],
             iconAnchor: [16, 16],
         });
@@ -51,13 +61,7 @@ export default function MapComponent() {
         const marker = L.marker([ZADAR_LAT, ZADAR_LON], { icon: customIcon }).addTo(map);
 
         // Add popup
-        marker.bindPopup(`
-      <div style="font-family: 'Space Mono', monospace; text-align: center;">
-        <strong style="color: #00ff9d;">Cloudzz Hackathon</strong><br/>
-        Providurova palača<br/>
-        <small>44.1158°N, 15.2251°E</small>
-      </div>
-    `).openPopup();
+        marker.bindPopup(POPUP_HTML).openPopup();
 
         // Cleanup
         return () => {

@@ -6,7 +6,7 @@ export default function StormCloud() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        console.log("StormCloud mounted");
+        // StormCloud mounted
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -55,7 +55,7 @@ export default function StormCloud() {
             float fbm(vec2 p) {
                 float v = 0.0;
                 float a = 0.5;
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 4; i++) { // Reduced from 5 for mobile
                     v += a * noise(p);
                     p *= 2.0;
                     a *= 0.5;
@@ -67,7 +67,7 @@ export default function StormCloud() {
             float fbmLightning(vec2 p) {
                 float v = 0.0;
                 float a = 0.5;
-                for (int i = 0; i < 6; i++) {
+                for (int i = 0; i < 5; i++) { // Reduced from 6 for mobile
                     v += a * abs(noise(p) * 2.0 - 1.0); // Turbulence
                     p *= 2.0;
                     a *= 0.5;
@@ -140,17 +140,6 @@ export default function StormCloud() {
                 // At scroll 0, shift is 0.3 (buildings hidden). At scroll 0.15, shift is 0.0 (buildings fully up).
                 float verticalShift = (1.0 - smoothstep(0.0, 0.15, scrollFactor)) * 0.3;
                 
-                // Pass shift to cityscape (we need to update the function signature first, or just inline the shift logic here)
-                // Actually, let's update the cityscape function to use the shift.
-                // But since I can't easily change the function signature in this replace block without changing the whole file structure,
-                // I will modify the cityscape function call to include the shift in the UV or modify the function itself in a separate block.
-                // Wait, I can replace the whole main and cityscape function if needed, or just the main part and use a uniform-like approach?
-                // No, let's just update the cityscape function in a separate call or do it all here if I include the function.
-                // I'll assume I update the function in the next step or do it now.
-                // Let's do the lightning part first here and the cityscape call.
-                
-                // I will update the cityscape function to take 'verticalShift' instead of 'scroll' or in addition.
-                // For now, let's assume I'll update the function.
                 float buildings = cityscape(uv, verticalShift); 
                 
                 // Visibility is now controlled by the physical rise, so we can simplify the mixing
@@ -254,6 +243,7 @@ export default function StormCloud() {
         const seedLocation = gl.getUniformLocation(program, "u_seed");
 
         let startTime = performance.now();
+        let lastFrameTime = startTime;
         let lightningIntensity = 0;
         let nextLightningTime = Math.random() * 3000 + 2000;
         let currentSeed = Math.random() * 100.0;
@@ -279,8 +269,12 @@ export default function StormCloud() {
                 currentSeed = Math.random() * 100.0; // New random position for this strike
             }
 
+            // Delta time calculation
+            const deltaTime = (time - lastFrameTime) / 1000;
+            lastFrameTime = time;
+
             if (lightningIntensity > 0) {
-                lightningIntensity -= 0.1; // Fade out
+                lightningIntensity -= 6.0 * deltaTime; // Fade out over ~0.16s
                 if (lightningIntensity < 0) lightningIntensity = 0;
             }
             gl.uniform1f(lightningLocation, lightningIntensity);

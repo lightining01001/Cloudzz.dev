@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import DotClock from "./DotClock";
 
 // Target date: December 2, 2025 (Zadar Hackathon start)
-const TARGET_DATE = new Date("2025-12-02T00:00:00");
+const TARGET_DATE = new Date("2025-12-02T10:00:00");
 
 export default function CountdownWidget() {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });

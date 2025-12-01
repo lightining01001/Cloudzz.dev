@@ -136,7 +136,7 @@ export default function GlobalConnectionSystem() {
                 // Middle card (Roko, index 1) gets a straight vertical line
                 if (idx === 1) {
                     const path = `M ${startX} ${startY} L ${endX} ${endY}`;
-                    console.log(`Generated STRAIGHT path for card ${idx} (Roko):`, { startX, startY, endX, endY });
+                    // console.log(`Generated STRAIGHT path for card ${idx} (Roko):`, { startX, startY, endX, endY });
                     return path;
                 }
 
@@ -148,22 +148,30 @@ export default function GlobalConnectionSystem() {
                 const cp2Y = startY + distance * 0.7;
 
                 const path = `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
-                console.log(`Generated curved path for card ${idx}:`, { startX, startY, endX, endY });
+                // console.log(`Generated curved path for card ${idx}:`, { startX, startY, endX, endY });
                 return path;
             });
 
-            console.log(`Total paths created: ${newLinePaths.filter(p => p !== "").length}`);
+            // console.log(`Total paths created: ${newLinePaths.filter(p => p !== "").length}`);
             setLinePaths(newLinePaths.filter(p => p !== ""));
         };
 
         calculatePaths();
-        window.addEventListener("resize", calculatePaths);
+
+        let resizeTimeout: NodeJS.Timeout;
+        const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(calculatePaths, 100);
+        };
+
+        window.addEventListener("resize", handleResize);
 
         const timeout1 = setTimeout(calculatePaths, 500);
         const timeout2 = setTimeout(calculatePaths, 1500);
 
         return () => {
-            window.removeEventListener("resize", calculatePaths);
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(resizeTimeout);
             clearTimeout(timeout1);
             clearTimeout(timeout2);
         };

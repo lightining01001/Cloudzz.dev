@@ -71,11 +71,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
         }, 350);
     };
 
-    // Touch handler for mobile devices - DISABLED for glitch effect
-    const handleTouchStart = () => {
-        // Do nothing on mobile - glitch effect disabled
-        return;
-    };
+
 
     // Typewriter effect for terminal text
     useEffect(() => {
@@ -122,7 +118,6 @@ const MemberCard = ({ member, index }: { member: typeof members[0], index: numbe
             className="cursor-hover glass-card p-6 sm:p-8 rounded-xl hover:scale-105 active:scale-105 transition-transform duration-300 relative overflow-hidden group min-h-[280px] sm:min-h-[300px] touch-manipulation"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onTouchStart={handleTouchStart}
         >
             {/* Main Content */}
             <div className={`transition-opacity duration-100 ${glitchActive ? "opacity-50" : "opacity-100"}`}>

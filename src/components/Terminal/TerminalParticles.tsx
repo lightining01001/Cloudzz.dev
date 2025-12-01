@@ -56,7 +56,7 @@ export default function TerminalParticles() {
                 const p = particles[i];
                 p.x += p.dx;
                 p.y += p.dy;
-                p.life -= 0.02;
+                p.life -= 0.03; // Optimized from 0.02 for performance
 
                 if (p.life <= 0) {
                     particles.splice(i, 1);

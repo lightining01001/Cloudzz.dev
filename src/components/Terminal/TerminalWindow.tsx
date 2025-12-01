@@ -23,8 +23,12 @@ export default function TerminalWindow() {
                 className="w-full max-w-5xl bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-lg shadow-2xl border border-terminal-gray/20 overflow-hidden flex flex-col min-h-[780px] sm:min-h-[730px] md:h-[680px] relative group"
             >
                 {/* CRT Overlay Effect */}
-                <div className="absolute inset-0 pointer-events-none z-50 opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
-                <div className="absolute inset-0 pointer-events-none z-50 opacity-20 radial-gradient-crt" />
+                {/* CRT Overlay Effect - Hidden on mobile for performance */}
+                {/* CRT Overlay Effect - Hidden on mobile for performance */}
+                <div className="hidden md:block absolute inset-0 pointer-events-none z-50 opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
+                <div className="hidden md:block absolute inset-0 pointer-events-none z-50 opacity-20 radial-gradient-crt" />
+                {/* Static Mobile Overlay (Lightweight) */}
+                <div className="block md:hidden absolute inset-0 pointer-events-none z-50 opacity-5 bg-black" />
 
                 {/* Terminal Header */}
                 <div className="bg-terminal-gray/5 border-b border-terminal-gray/10 p-2 sm:p-3 flex items-center justify-between relative z-20">

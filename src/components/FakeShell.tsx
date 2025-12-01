@@ -27,6 +27,7 @@ export default function FakeShell() {
 
         const targetCmd = COMMANDS[currentCmdIndex].cmd;
         let charIndex = 0;
+        let timeoutId: NodeJS.Timeout;
 
         const typeInterval = setInterval(() => {
             if (charIndex <= targetCmd.length) {
@@ -34,7 +35,7 @@ export default function FakeShell() {
                 charIndex++;
             } else {
                 clearInterval(typeInterval);
-                setTimeout(() => {
+                timeoutId = setTimeout(() => {
                     setLines((prev) => [...prev, COMMANDS[currentCmdIndex]]);
                     setTypingCmd("");
                     setCurrentCmdIndex((prev) => prev + 1);
@@ -42,7 +43,10 @@ export default function FakeShell() {
             }
         }, 100); // Typing speed
 
-        return () => clearInterval(typeInterval);
+        return () => {
+            clearInterval(typeInterval);
+            clearTimeout(timeoutId);
+        };
     }, [currentCmdIndex]);
 
     useEffect(() => {

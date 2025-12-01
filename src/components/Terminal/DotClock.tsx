@@ -9,7 +9,7 @@ export default function DotClock() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        console.log("DotClock mounted");
+        // DotClock mounted
         setMounted(true);
         const interval = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(interval);

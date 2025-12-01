@@ -1,15 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
+import GlassCard from "./GlassCard";
 
 const LOGOS = [
     {
         name: "C++",
         src: "/ISO_C++_Logo.svg.png",
         href: "https://isocpp.org/",
+        className: "",
     },
     {
         name: "React",
@@ -18,8 +19,9 @@ const LOGOS = [
     },
     {
         name: "Next.js",
-        src: "/next_js_logo_icon_145038.webp",
+        src: "/nextjs-icon.svg",
         href: "https://nextjs.org/",
+        className: "brightness-0 invert",
     },
     {
         name: "Vue.js",
@@ -30,6 +32,7 @@ const LOGOS = [
         name: "ChatGPT",
         src: "/openai.svg",
         href: "https://openai.com/chatgpt",
+        className: "brightness-0 invert",
     },
     {
         name: "C",
@@ -40,6 +43,7 @@ const LOGOS = [
         name: "Linux",
         src: "/linux.png",
         href: "https://www.gnu.org/gnu/linux-and-gnu.html",
+        className: "brightness-0 invert",
     },
     {
         name: "Google Gemini",
@@ -48,7 +52,7 @@ const LOGOS = [
     },
     {
         name: "JetBrains",
-        src: "/jetbrains.webp",
+        src: "/JetBrains_beam_logo.svg.png",
         href: "https://www.jetbrains.com/",
     },
     {
@@ -57,6 +61,9 @@ const LOGOS = [
         href: "https://tailwindcss.com/",
     },
 ];
+
+// Duplicate logos once outside the component to avoid re-calculation on every render
+const DOUBLED_LOGOS = [...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS];
 
 export default function Arsenal() {
     const [text, setText] = useState("");
@@ -67,26 +74,25 @@ export default function Arsenal() {
         const interval = setInterval(() => {
             setText(fullText.slice(0, i));
             i++;
-            if (i > fullText.length) clearInterval(interval);
+            if (i > fullText.length) {
+                clearInterval(interval);
+            }
         }, 50);
         return () => clearInterval(interval);
     }, []);
 
     return (
         <section className="py-20 px-4 relative z-10 overflow-hidden">
-            <div className="max-w-6xl mx-auto mb-12 text-center glass-card p-8 rounded-2xl">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-4xl font-bold mb-4 text-terminal-green"
-                >
-                    <span className="text-terminal-amber">{">"}</span> The_Arsenal
-                </motion.h2>
-                <div className="h-6 font-mono text-terminal-gray/80 text-sm md:text-base">
-                    {text}
-                    <span className="animate-pulse">_</span>
-                </div>
+            <div className="max-w-6xl mx-auto mb-12 text-center">
+                <GlassCard className="p-8">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-terminal-green">
+                        <span className="text-terminal-amber">{">"}</span> The_Arsenal
+                    </h2>
+                    <div className="h-6 font-mono text-terminal-gray/80 text-sm md:text-base">
+                        {text}
+                        <span className="animate-pulse">_</span>
+                    </div>
+                </GlassCard>
             </div>
 
             {/* Marquee Container */}
@@ -99,7 +105,7 @@ export default function Arsenal() {
                 <div className="glass py-6 border border-terminal-gray/10 rounded-3xl">
                     <div className="flex overflow-hidden">
                         <motion.div
-                            className="flex gap-16 items-center px-16 whitespace-nowrap w-max"
+                            className="flex gap-16 items-center px-16 whitespace-nowrap w-max will-change-transform"
                             animate={{ x: ["0%", "-50%"] }}
                             transition={{
                                 repeat: Infinity,
@@ -108,7 +114,7 @@ export default function Arsenal() {
                             }}
                         >
                             {/* All logos - duplicated for smooth loop */}
-                            {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logo, index) => (
+                            {DOUBLED_LOGOS.map((logo, index) => (
                                 <a
                                     key={index}
                                     href={logo.href}
@@ -122,7 +128,7 @@ export default function Arsenal() {
                                             alt={logo.name}
                                             width={64}
                                             height={64}
-                                            className="object-contain max-w-full max-h-full dark:invert"
+                                            className={`object-contain max-w-full max-h-full ${logo.className || ""}`}
                                             priority
                                         />
                                     </div>

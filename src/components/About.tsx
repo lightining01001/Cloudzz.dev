@@ -1,18 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import GlassCard from "./GlassCard";
 
 export default function About() {
     return (
         <section className="py-20 px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="glass-card p-8 md:p-12 rounded-2xl"
-                >
+                <GlassCard>
                     <h2 className="text-3xl font-bold mb-8 text-terminal-green flex items-center gap-2">
                         <span className="text-terminal-amber">{">"}</span> About_Us
                     </h2>
@@ -36,7 +30,7 @@ export default function About() {
                             ))}
                         </ul>
                     </div>
-                </motion.div>
+                </GlassCard>
             </div>
         </section>
     );
