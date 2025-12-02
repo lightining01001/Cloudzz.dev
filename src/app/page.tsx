@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Members from "@/components/Members";
+import HackathonProjects from "@/components/HackathonProjects";
 import TerminalWindow from "@/components/Terminal/TerminalWindow";
 import Contact from "@/components/Contact";
 import Arsenal from "@/components/Arsenal";
@@ -17,6 +18,7 @@ export default function Home() {
       <Hero />
       <About />
       <Members />
+      <HackathonProjects />
       <Arsenal />
       <TerminalWindow />
       <MapSection />
