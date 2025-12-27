@@ -29,20 +29,19 @@ export default function StartItPage() {
                     className="text-center max-w-5xl mx-auto"
                 >
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 text-terminal-green">
-                        Start.it
+                        startit.io
                     </h1>
                     <p className="text-xl md:text-2xl text-terminal-amber mb-8">
                         Building the future together
                     </p>
                     <div className="flex gap-4 justify-center mb-12">
-                        <a
-                            href="https://alt-start-it.cloudzz.dev"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="cursor-hover px-8 py-3 bg-terminal-green/20 border border-terminal-green rounded-lg text-terminal-green font-semibold hover:bg-terminal-green/30 transition-colors"
-                        >
-                            Visit Live Site ↗
-                        </a>
+                        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg max-w-lg">
+                            <p className="text-red-400 text-sm md:text-base font-mono">
+                                <span className="font-bold">⚠️ SYSTEM OFFLINE:</span> My Raspberry Pi 5 is currently out of order.
+                                <br />
+                                <span className="opacity-80">Link will be updated once the system is back online and deployed.</span>
+                            </p>
+                        </div>
                     </div>
                 </motion.div>
             </section>
@@ -62,19 +61,12 @@ export default function StartItPage() {
                             </h2>
                             <div className="space-y-4 text-terminal-gray/80 text-lg">
                                 <p>
-                                    Start.it is a modern networking platform that connects startup founders, developers, and investors to collaborate and build the future together. It was developed at the <span className="text-terminal-amber font-semibold">Zadar Smart City Hackathon 2025</span> and is hosted on Leon's Raspberry Pi.
+                                    startit.io is a modern networking platform that connects startup founders, developers, and investors to collaborate and build the future together. It was developed at the <span className="text-terminal-amber font-semibold">Zadar Smart City Hackathon 2025</span> and is hosted on Leon's Raspberry Pi.
                                 </p>
                                 <p>
                                     The platform features role-based profiles, allowing developers to find gigs and co-founder opportunities, founders to pitch to investors and recruit talent, and investors to discover early-stage startups.
                                 </p>
-                                <p>
-                                    With its premium glassmorphism UI and Dynamic Island navigation, Start.it provides a sleek, interactive experience for the startup ecosystem.
-                                </p>
-                                <div className="bg-terminal-amber/10 border border-terminal-amber/30 rounded-lg p-4 mt-6">
-                                    <p className="text-terminal-amber font-semibold">
-                                        ⚠️ Note: All data displayed on the platform is demo data for demonstration purposes.
-                                    </p>
-                                </div>
+
                             </div>
                         </GlassCard>
                     </motion.div>
@@ -160,6 +152,6 @@ export default function StartItPage() {
                     </motion.div>
                 </div>
             </section>
-        </main>
+        </main >
     );
 }

@@ -6,7 +6,7 @@ import GlassCard from "./GlassCard";
 
 const projects = [
     {
-        name: "Start.it",
+        name: "startit.io",
         url: "/start-it",
         externalUrl: "https://alt-start-it.cloudzz.dev",
         description: "A modern networking platform connecting startup founders, developers, and investors",
@@ -55,14 +55,11 @@ export default function HackathonProjects() {
                                         >
                                             View Details
                                         </Link>
-                                        <a
-                                            href={project.externalUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="cursor-hover px-6 py-2 bg-terminal-amber/10 border border-terminal-amber/30 rounded-lg text-terminal-amber font-semibold hover:bg-terminal-amber/20 transition-colors"
+                                        <div
+                                            className="px-6 py-2 bg-red-500/10 border border-red-500/30 rounded-lg text-red-500 font-semibold cursor-not-allowed"
                                         >
-                                            Live Demo ↗
-                                        </a>
+                                            System Offline ⚠️
+                                        </div>
                                     </div>
                                 </div>
                                 <p className="text-terminal-gray/80 text-lg mb-2">
